@@ -1,5 +1,5 @@
 import Head from "next/head";
-import Header from "../header/Header";
+import Header from "./Header";
 
 export default function Layout({ children }) {
 	return (

@@ -1,3 +1,10 @@
+import Chart from "chart.js/auto";
+import LineChart from "../../components/charts/LineChart";
+
 export default function ChartsSection() {
-	return <div></div>;
+	return (
+		<div>
+			<LineChart />
+		</div>
+	);
 }

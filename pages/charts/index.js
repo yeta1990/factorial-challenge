@@ -1,4 +1,4 @@
-import Chart from "chart.js/auto";
+import "chart.js/auto";
 import LineChart from "../../components/charts/LineChart";
 
 export default function ChartsSection() {

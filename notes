@@ -4,7 +4,7 @@ main requirements: - backend and frontend logic separated -> next js app - libra
 
 features of the charts: - timeline (datetime in x-axis). last 28/14/7 days? at first it could be easier to implement, later it may be iterated to have timeselect - show averages per minute/hour/day
 
-frontend work: - chart components thought to be as reusable as possible. Chart object with different types, selected by props? //https://itnext.io/chartjs-tutorial-with-react-nextjs-with-examples-2f514fdc130
+frontend work: - chart components thought to be as reusable as possible. Chart object with different types, selected by props? //https://itnext.io/chartjs-tutorial-with-react-nextjs-with-examples-2f514fdc130 https://react-chartjs-2.js.org/docs/migration-to-v4
 .bar chart, x-axis date,
 .line chart
 .

@@ -99,16 +99,19 @@ export default function LineChart() {
 				setSelected={setChartType}
 			/>
 			{chartType && dataChart && (
-				<Chart
-					type="line"
-					datasetIdKey="id"
-					data={dataChart}
-					width={3}
-					height={1}
-					options={{
-						maintainAspectRatio: true,
-					}}
-				/>
+				<div style={{ minheight: "400px" }}>
+					<Chart
+						type="line"
+						datasetIdKey="id"
+						data={dataChart}
+						width={300}
+						height={300}
+						options={{
+							maintainAspectRatio: false,
+							responsive: true,
+						}}
+					/>
+				</div>
 			)}
 		</div>
 	);

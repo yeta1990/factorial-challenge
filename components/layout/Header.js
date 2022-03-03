@@ -6,16 +6,7 @@ export default function Header() {
 			<Link href="/" passHref>
 				<a className="navbar-brand">Factorial Challenge</a>
 			</Link>
-			<button
-				className="navbar-toggler"
-				type="button"
-				data-toggle="collapse"
-				data-target="#navbarNav"
-				aria-controls="navbarNav"
-				aria-expanded="false"
-				aria-label="Toggle navigation"
-			></button>
-			<div className="collapse navbar-collapse" id="navbarNav">
+			<div className="navbar-collapse" id="navbarNav">
 				<ul className="navbar-nav">
 					<li className="nav-item">
 						<Link href="/" passHref>

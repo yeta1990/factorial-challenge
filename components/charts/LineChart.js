@@ -1,95 +1,104 @@
 import { useState, useEffect } from "react";
 import { Chart } from "react-chartjs-2";
 import RadioButtonGroup from "../layout/RadioButtonGroup";
+import {
+	getDayAxis,
+	getHourAxis,
+	getLastDaysAxis,
+	getMinuteAxis,
+} from "../../utils/axisLabels";
+import axios from "axios";
 
-function composeData(grouped, values) {
-	const data = {
-		datasets: [
-			{
-				label: "Average revenue per " + grouped,
-				fill: false,
-				lineTension: 0.1,
-				backgroundColor: "rgba(75,192,192,0.4)",
-				borderColor: "rgba(75,192,192,1)",
-				borderCapStyle: "butt",
-				borderDash: [],
-				borderDashOffset: 0.0,
-				borderJoinStyle: "miter",
-				pointBorderColor: "rgba(75,192,192,1)",
-				pointBackgroundColor: "#fff",
-				pointBorderWidth: 1,
-				pointHoverRadius: 5,
-				pointHoverBackgroundColor: "rgba(75,192,192,1)",
-				pointHoverBorderColor: "rgba(220,220,220,1)",
-				pointHoverBorderWidth: 2,
-				pointRadius: 1,
-				pointHitRadius: 10,
-			},
-		],
+async function createDatasets(grouped, product) {
+	let datasets = [];
+	let xAxis;
+	let values = await axios
+		.get(`/api/sales?avg=${grouped}`)
+		.then((r) => r.data)
+		.catch((err) => console.log(err));
+
+	if (grouped == "Hour") xAxis = getHourAxis();
+	else if (grouped == "Minute") xAxis = getMinuteAxis();
+	else if (grouped == "Day") xAxis = getDayAxis();
+	else xAxis = getLastDaysAxis(30);
+
+	for (let j = 0; j < xAxis.length; j++) {
+		datasets[j] = 0;
+		for (let i = 0; i < values.length; i++) {
+			if (xAxis[j] == values[i].date && product == values[i].name) {
+				datasets[j] = values[i].value;
+			}
+		}
+	}
+	return datasets;
+}
+
+function getColor(id) {
+	if (id == 0) return "rgba(0,0,255,1)";
+	else if (id == 1) return "rgba(75,192,0,1)";
+	else if (id == 2) return "rgba(255,0,0,1)";
+	else if (id == 3) return "rgba(75,192,0,1)";
+	else if (id == 4) return "rgba(75,192,0,1)";
+	else if (id == 5) return "rgba(75,192,0,1)";
+}
+
+async function composeData(grouped) {
+	let distinctProducts = await axios
+		.get("/api/products")
+		.then((r) => r.data)
+		.catch((err) => console.log(err));
+	let data = {
+		datasets: [],
+		labels: null,
 	};
-	if (grouped == "Hour") {
-		/*data["labels"] = [];
-		for (var i = 0; i < 24; i++) data["labels"].add(i);
-		*/ data["labels"] = [
-			"00",
-			"01",
-			"02",
-			"03",
-			"04",
-			"05",
-			"06",
-			"07",
-			"08",
-			"09",
-			"10",
-			"11",
-			"12",
-			"13",
-			"14",
-			"15",
-			"16",
-			"17",
-			"18",
-			"19",
-			"20",
-			"21",
-			"22",
-			"23",
-		];
-	} else if (grouped == "Minute")
-		data["labels"] = ["0-10", "11-20", "21-30", "31-40", "41-50", "51-60"];
-	else
-		data["labels"] = [
-			"Monday",
-			"Tuesday",
-			"Wednesday",
-			"Thursday",
-			"Friday",
-			"Saturday",
-			"Sunday",
-		];
 
-	data.datasets[0].data = values;
+	for (let p = 0; p < distinctProducts.length; p++) {
+		data.datasets[p] = {};
+		data.datasets[p]["data"] = await createDatasets(
+			grouped,
+			distinctProducts[p].name
+		);
+		if (grouped == "Total")
+			data.datasets[p]["label"] =
+				distinctProducts[p].name + ": total revenue";
+		else
+			data.datasets[p]["label"] =
+				distinctProducts[p].name + ": average revenue per " + grouped;
+		data.datasets[p]["fill"] = false;
+		data.datasets[p]["lineTension"] = 0.2;
+		data.datasets[p]["backgroundColor"] = "rgba(75,192,192,0.4)";
+		data.datasets[p]["borderColor"] = getColor(p);
+		data.datasets[p]["borderCapStyle"] = "butt";
+	}
+
+	if (grouped == "Hour") data["labels"] = getHourAxis();
+	else if (grouped == "Minute") data["labels"] = getMinuteAxis();
+	else if (grouped == "Day") data["labels"] = getDayAxis();
+	else data["labels"] = getLastDaysAxis(30);
 	return data;
 }
 
 export default function LineChart() {
-	const [chartType, setChartType] = useState("");
+	const [chartType, setChartType] = useState(false);
 	const [dataChart, setDataChart] = useState(false);
 
 	useEffect(() => {
-		setDataChart(() => composeData(chartType, [10, 20, 0, 50, 60, 80, 7]));
+		async function f() {
+			const newDataChart = await composeData(chartType);
+			setDataChart(newDataChart);
+		}
+		f();
 	}, [chartType]);
 
 	return (
 		<div>
-			<h2>Line chart (custom size)</h2>
-			<h3>See average by </h3>
+			<h2>Sales charts</h2>
+			<span>Select display: </span>
 			<RadioButtonGroup
-				labels={["Day", "Hour", "Minute"]}
+				labels={["Total", "Day", "Hour", "Minute"]}
 				setSelected={setChartType}
 			/>
-			{dataChart && (
+			{chartType && dataChart && (
 				<Chart
 					type="line"
 					datasetIdKey="id"

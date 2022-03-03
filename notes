@@ -22,3 +22,5 @@ backend: - function to convert timestamp to date - function to convert date to t
 .selected product
 .selected product and avg - handle basic errors
 .wrong values. negative in value, for instance.
+
+// https://catonmat.net/tools/generate-random-unix-timestamps

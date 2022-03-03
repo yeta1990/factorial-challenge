@@ -1,5 +1,4 @@
 import RadioButton from "./RadioButton";
-import { useEffect, useState } from "react";
 
 export default function RadioButtonGroup({ labels, setSelected }) {
 	let allRadioButtons = labels.map((label, i) => {

@@ -24,3 +24,7 @@ backend: - function to convert timestamp to date - function to convert date to t
 .wrong values. negative in value, for instance.
 
 // https://catonmat.net/tools/generate-random-unix-timestamps
+
+avg per minute in last 30 days
+./api/sales?avg=minute&last_days=30
+SUM(value) / 30

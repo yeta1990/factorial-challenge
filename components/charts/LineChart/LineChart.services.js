@@ -1,4 +1,11 @@
-import { timestampToDateString } from "./timeUtils";
+import { timestampToDateString } from "../../../utils/timeUtils";
+
+export function getXAxis(type, lastDays) {
+	if (type == "Hour") return getHourAxis();
+	else if (type == "Minute") return getMinuteAxis();
+	else if (type == "Day") return getDayAxis();
+	return getLastDaysAxis(lastDays);
+}
 
 export function getLastDaysAxis(days) {
 	let i = 0;

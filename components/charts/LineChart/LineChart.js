@@ -1,18 +1,18 @@
 import { useState, useEffect } from "react";
 import { Chart } from "react-chartjs-2";
-import RadioButtonGroup from "../layout/RadioButtonGroup";
-import { composeData } from "../../services/linechart.service";
+import RadioButtonGroup from "../../layout/RadioButtonGroup";
+import { composeData } from "./LineChart.controller";
 
 export default function LineChart() {
 	const [chartType, setChartType] = useState("");
 	const [dataChart, setDataChart] = useState({});
 
 	useEffect(() => {
-		async function f() {
-			const newDataChart = await composeData(chartType);
+		async function getDataAndFillChart() {
+			const newDataChart = await composeData(chartType, 30);
 			setDataChart(newDataChart);
 		}
-		f();
+		getDataAndFillChart();
 	}, [chartType]);
 
 	return (

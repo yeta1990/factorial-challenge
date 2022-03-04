@@ -21,27 +21,27 @@ export default async function sales(req, res) {
 						FROM 
 						(SELECT
 							COUNT(1) as count,
-							avg(value) as value,
-							name,
+							SUM(value) / COUNT(1) as value,
+							'all_products' as name,
 							strftime('%w', datetime(timestamp, 'unixepoch')) as weekday  
 						FROM Metrics
 						GROUP by name, weekday)`;
 		if (req.query.avg == "Hour")
 			query = `SELECT
 							COUNT(1) as count,
-							avg(value) as value,
-							name,
+							SUM(value) / COUNT(1) as value,
+							'all_products' as name,
 							strftime('%H', datetime(timestamp, 'unixepoch')) as date  
 						FROM Metrics
 						GROUP by name, date`;
 		if (req.query.avg == "Minute")
 			query = `SELECT
 							COUNT(1) as count,
-							avg(value) as value,
-							name,
+							SUM(value) / COUNT(1) as value,
+							'all_products' as name,
 							strftime('%M', datetime(timestamp, 'unixepoch')) as date  
 						FROM Metrics
-						GROUP by name, date`;
+						GROUP by date`;
 		const result = await prisma.$queryRaw`${raw(query)}`;
 		console.log(result);
 		res.status(200).json(result);

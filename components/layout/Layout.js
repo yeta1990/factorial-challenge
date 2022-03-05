@@ -11,14 +11,14 @@ export default function Layout({ children }) {
 					content="initial-scale=1.0, width=device-width"
 				/>
 			</Head>
-			<div className="container-fluid">
-				<Header />
+			<Header />
+			<div className="container">
 				<div className="row">
-					<div className="col-2"></div>
+					<div className="col-2-sm"></div>
 					<div className="col">
 						<main>{children}</main>
 					</div>
-					<div className="col-2"></div>
+					<div className="col-2-sm"></div>
 				</div>
 			</div>
 		</div>

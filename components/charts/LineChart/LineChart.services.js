@@ -10,7 +10,7 @@ export function getXAxis(type, lastDays) {
 export function getLastDaysAxis(days) {
 	let i = 0;
 	let axisData = [];
-	while (i <= days) {
+	while (i < days) {
 		let d = new Date();
 		d.setDate(d.getDate() - days + i + 1);
 		axisData[i] = timestampToDateString(d);

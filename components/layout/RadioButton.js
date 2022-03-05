@@ -10,7 +10,7 @@ export default function RadioButton({ label, setSelected }) {
 				defaultChecked={false}
 				onClick={() => setSelected(label)}
 			/>
-			<label className="btn btn-outline-primary" htmlFor={label}>
+			<label className="btn btn-outline-secondary" htmlFor={label}>
 				{label}
 			</label>
 		</div>

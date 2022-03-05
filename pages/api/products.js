@@ -7,7 +7,6 @@ export default async function products(req, res) {
 	try {
 		let result;
 		result = await prisma.$queryRaw`${raw(query)}`;
-		console.log(result);
 		res.status(200).json(result);
 	} catch (err) {
 		console.log(err);

@@ -1,4 +1,4 @@
-# Factorial technical challenge
+# Factorial HR technical challenge
 
 ![Screenshot of factorial challenge repo](screenshot.png)
 
@@ -18,7 +18,7 @@ _.env_ file is uploaded only to ease the configuration during evaluation and bec
     -   `npm run dev`
     -   `npx prisma generate` _(in case some model is changed or added in prisma/schema.prisma)_
     -   `npx prisma studio` _(to add, modify and delete the db records easily)_
--   Deployment: npm install && npm run build && npm run start
+-   Deployment: `npm install && npm run build && npm run start
 
 ## Docs and references from main dependencies:
 

@@ -2,11 +2,11 @@ export function querySalesBasic(lastDays) {
 	const query = `SELECT *
 	FROM
 		(SELECT
-			COUNT(1) as count,
+			CAST(COUNT(1) as float) as count,
 			timestamp,
 			strftime('%d-%m-%Y', datetime(timestamp, 'unixepoch')) as date,
 			name,
-			SUM(value) as value,
+			CAST(SUM(value) as float) as value,
 			DATETIME(timestamp, 'unixepoch') as date_time
 		FROM Metrics
 		GROUP BY name, date) 
@@ -17,8 +17,8 @@ export function querySalesBasic(lastDays) {
 export function querySalesAverage(dateFormat, lastDays) {
 	let query = `SELECT * FROM
 		(SELECT
-			COUNT(1) as total_sales,
-			SUM(value) as total_sum,
+			CAST(COUNT(1) as float) as total_sales,
+			CAST(SUM(value) as float) as total_sum,
 			SUM(value) / CAST(30 as float) as value,
 			name,
 			strftime('%${dateFormat}', datetime(timestamp, 'unixepoch')) as date,
